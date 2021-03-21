@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha ./src/test/*"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,11 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
     "dotenv": "^8.2.0",
-    "nodemon": "^2.0.7"
+    "mocha": "^8.3.2",
+    "nodemon": "^2.0.7",
+    "unique-names-generator": "^4.4.0"
   }
 }
