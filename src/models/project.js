@@ -28,19 +28,21 @@ const ProjectSchema = new mongoose.Schema({
       },
       message: PROJECT_STATES.message,
     },
-    progress: {
-      type: Number,
-      min: 0,
-      max: 100,
-    },
-    dateTimeCreated: {
-      type: Date,
-      default: Date.now,
-    },
-    dateTimeUpdated: {
-      type: Date,
-      default: Date.now,
-    },
+  },
+  progress: {
+    type: Number,
+    required: true,
+    default: 0,
+    min: 0,
+    max: 100,
+  },
+  dateTimeCreated: {
+    type: Date,
+    default: Date.now,
+  },
+  dateTimeUpdated: {
+    type: Date,
+    default: Date.now,
   },
 });
 

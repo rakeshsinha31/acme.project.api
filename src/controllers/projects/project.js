@@ -26,8 +26,7 @@ module.exports = {
       );
       return;
     }
-    const projectName = await ProjectModel.findOne({ name });
-    if (projectName) {
+    if (await ProjectModel.findOne({ name })) {
       next(ApiError.badRequest("A Project with same name exists"));
       return;
     }
@@ -42,5 +41,90 @@ module.exports = {
       next(ApiError.internalError(error));
       return;
     }
+  },
+  getAllProjects: async (_req, res, next) => {
+    try {
+      const projects = await ProjectModel.find({});
+      return res.status(200).json({
+        ...projects,
+        count: projects.length,
+      });
+    } catch (error) {
+      next(ApiError.internalError("Something went wrong, please try later"));
+      logger.log(error, "error");
+      return;
+    }
+  },
+  assignParticipant: async (req, res, next) => {
+    const projectId = req.params.projectId;
+    const { participant, owner } = req.body;
+
+    if (!participant || !owner) {
+      next(ApiError.badRequest("participant and owner fields are required"));
+      return;
+    }
+    const project = await ProjectModel.findOne({
+      _id: projectId,
+    });
+    if (!project) {
+      next(ApiError.notFound("Project doesn't exist"));
+    }
+    const assigner = await employee(owner);
+    const assignee = await employee(participant);
+    if (assigner.department !== assignee.department) {
+      next(
+        ApiError.badRequest(
+          "Participants must be part of the same department as the Owner"
+        )
+      );
+      return;
+    }
+    if (project.participants.indexOf(participant) >= 0) {
+      next(
+        ApiError.badRequest("The Participant is already part to this project")
+      );
+      return;
+    }
+    const prjt = await project.updateOne({
+      $push: { participants: participant },
+      dateTimeUpdated: Date.now(),
+    });
+    return res.status(200).json({
+      ...prjt,
+      message: "Assigned Successfully",
+    });
+  },
+
+  updateProject: async (req, res, next) => {
+    const { state, progress } = req.body;
+    const id = req.params.projectId;
+    const project = await ProjectModel.findOne({
+      _id: id.toString(),
+    });
+    if (!project) {
+      next(ApiError.notFound("Project doesn't exist"));
+      return;
+    }
+    if (project.state !== "Active" && progress) {
+      next(
+        ApiError.badRequest(
+          "Can't update Progress f a project, which is not Active"
+        )
+      );
+      return;
+    }
+    try {
+      await ProjectModel.updateOne(
+        { _id: id },
+        { ...req.body, dateTimeUpdated: Date.now() },
+        { runValidators: true }
+      );
+    } catch (ValidatorError) {
+      next(ApiError.badRequest(ValidatorError.message));
+      return;
+    }
+    return res.status(200).json({
+      message: "Upated Successfully",
+    });
   },
 };
