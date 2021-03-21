@@ -35,4 +35,4 @@ const startServer = async (port) => {
   app.listen(port);
 };
 
-startServer(Number(3000));
+startServer(Number(process.env.APP_PORT) || 3000);
