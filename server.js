@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/", (req, res, next) => {
-  res.send("test connctiviti to server");
+  res.send("test connectivity to server");
 });
 
 const startServer = (port) => {
