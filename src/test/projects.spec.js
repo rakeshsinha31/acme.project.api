@@ -174,8 +174,6 @@ describe("Test Project APIs", () => {
         .request(TEST_SRVER_URL)
         .patch(`/api/V1/projects/assign/${projectId}`)
         .send(payload);
-
-      console.log(response.error);
       expect(response.status).to.equal(200);
     });
   });
