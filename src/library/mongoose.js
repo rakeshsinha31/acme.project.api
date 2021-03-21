@@ -2,6 +2,7 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 const mongoose = require("mongoose");
+const logger = require("../library/logger");
 
 const startMongoServer = async () => {
   try {
@@ -10,9 +11,9 @@ const startMongoServer = async () => {
       useCreateIndex: true,
       useUnifiedTopology: true,
     });
-    console.log("DATABASE is connected!!");
+    logger.log({ message: "DATABASE is connected!!", level: "info" });
   } catch (error) {
-    console.log(`Error in DB connection: ${error}`);
+    logger.log({ message: error, level: "error" });
   }
 };
 
