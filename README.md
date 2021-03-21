@@ -26,7 +26,7 @@ mocha/chai: testing framework of JS.
 
 `git clone https://github.com/rakeshsinha31/ACME-CORP-API.git`
 
-Clone the repo to local machine and navigate to the ACME-CORP-API folder. Create a `.env` file at application root folder and set env variables.
+Clone the repo to local machine and navigate to the application root folder. Create a `.env` file at application root folder and set env variables.
 
 ```
 API_VERSION=V1
