@@ -3,8 +3,11 @@ jobs:
   run_test:
     docker:
       - image: circleci/node:14
+<<<<<<< HEAD
       - image: mongo
       - image: redis
+=======
+>>>>>>> 6eee0cb744a86478deeefa9587c92fed35844213
     steps:
       - checkout
       - run:
