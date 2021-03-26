@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   run_test:
     docker:
-      - image: cicleci/node:10
+      - image: cicrleci/node:14
     steps:
       - checkout
       - run:
