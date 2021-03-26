@@ -1,0 +1,17 @@
+version: 2.1
+jobs:
+  run_test:
+    docker:
+      - image: cicleci/node:14
+    steps:
+      - checkout
+      - run:
+          name: Install npm depenedncy
+          command: npm install --save
+      - run:
+          name: Run unit test
+          command: npm run test
+workflows:
+  build_test:
+    jobs:
+      - run_test
