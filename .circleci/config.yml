@@ -2,7 +2,9 @@ version: 2.1
 jobs:
   run_test:
     docker:
-      - image: cicleci/node:14
+      - image: circleci/node:14
+      - image: mongo
+      - image: redis
     steps:
       - checkout
       - run:
